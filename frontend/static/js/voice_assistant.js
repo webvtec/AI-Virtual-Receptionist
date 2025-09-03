@@ -1,10 +1,26 @@
 async function startVoiceAssistant() {
-    document.getElementById("status").innerText = "Connecting...";
+    const statusEl = document.getElementById("status");
+    statusEl.innerText = "Connecting...";
 
-    let response = await fetch("/api/start_voice_assistant", {
-        method: "POST"
-    });
+    try {
+        const response = await fetch("/api/start_voice_assistant", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                clientName: process.env.REACT_APP_CLIENT_NAME || "AI Receptionist"
+            })
+        });
 
-    let result = await response.json();
-    document.getElementById("status").innerText = result.status;
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        statusEl.innerText = `${result.status} for ${process.env.REACT_APP_CLIENT_NAME || "AI Receptionist"}`;
+    } catch (error) {
+        console.error("Error starting voice assistant:", error);
+        statusEl.innerText = "❌ Failed to connect. Please try again.";
+    }
 }
