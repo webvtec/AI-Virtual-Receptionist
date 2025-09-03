@@ -8,7 +8,7 @@ class VoiceAssistant:
         self.transcriber = SpeechTranscriber(assemblyai_key)
         self.generator = TextGenerator(openai_key)
         self.speech_synthesizer = TextToSpeech(elevenlabs_key)
-        self.conversation_history = [{"role": "system", "content": "You are a receptionist at webvtec a website generation company."}]
+        self.conversation_history = [{"role": "system", "content": "You are a receptionist at webvtec a automated website generation company."}]
 
     def handle_transcription(self, transcript):
         if not transcript.text:
